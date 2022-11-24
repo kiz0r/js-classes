@@ -57,9 +57,11 @@ class RangeValidator {
   }
   set from(value) {
     if (typeof value !== 'number') {
-      throw new TypeError('This value must be a number.');
+      console.error(new TypeError('This value must be a number.'));
+      return;
     } else if (value >= this.to) {
-      throw new RangeError(`This value must be less than ${this.to}.`);
+      console.error(new RangeError(`This value must be less than ${this.to}.`));
+      return;
     }
     this._from = value;
   }
@@ -68,9 +70,13 @@ class RangeValidator {
   }
   set to(value) {
     if (typeof value !== 'number') {
-      throw new TypeError('This value must be a number.');
+      console.error(new TypeError('This value must be a number.'));
+      return;
     } else if (value <= this.from) {
-      throw new RangeError(`This value must be less than ${this.from}.`);
+      console.error(
+        new RangeError(`This value must be less than ${this.from}.`)
+      );
+      return;
     }
     this._to = value;
   }
@@ -79,6 +85,9 @@ class RangeValidator {
   }
   get range() {
     return [this.from, this.to];
+  }
+  isValid(value) {
+    return this.range[0] <= value && value <= this.range[1];
   }
 }
 
@@ -99,7 +108,11 @@ try {
   console.log(range1.to); // => 80
 
   // work of getter range
-  console.log(range1.range); // => [5, 80]
+  console.dir(range1.range); // => [5, 80]
+
+  // isValid
+  console.log('isValid => ', range1.isValid(10));
+  console.log('isValid => ', range1.isValid(100));
 } catch (error) {
   if (error instanceof TypeError) {
     console.error('error : ', error);
@@ -109,7 +122,3 @@ try {
     console.error('error', error);
   }
 }
-
-// Робота validate
-// console.log(range1.isValid(10)) // => true (оскільки належить діапазону [5, 80])
-// console.log(range1.isValid(100)) // => false (оскільки не належить діапазону [5, 80])
