@@ -37,8 +37,17 @@ class Phone {
   }
 }
 
-const testPhone = new Phone('IPhone', '13', 'black', 800, 2021);
-console.dir(testPhone);
+try {
+  const testPhone = new Phone('IPhone', '13', 'black', 800, 2021);
+  console.dir(testPhone);
+} catch (error) {
+  if (error instanceof TypeError) {
+    console.log('error : ', error);
+  }
+  if (error instanceof RangeError) {
+    console.log('error : ', error);
+  }
+}
 
 // 2. *Реалізувати клас RangeValidator.
 // Клас призначений для валідації потрапляння числового значення в діапазон.
@@ -57,11 +66,9 @@ class RangeValidator {
   }
   set from(value) {
     if (typeof value !== 'number') {
-      console.error(new TypeError('This value must be a number.'));
-      return;
-    } else if (value >= this.to) {
-      console.error(new RangeError(`This value must be less than ${this.to}.`));
-      return;
+      throw new TypeError('This value must be a number.');
+    } else if (value > this.to) {
+      throw new RangeError(`This value must be less than ${this.to}.`);
     }
     this._from = value;
   }
@@ -70,13 +77,9 @@ class RangeValidator {
   }
   set to(value) {
     if (typeof value !== 'number') {
-      console.error(new TypeError('This value must be a number.'));
-      return;
-    } else if (value <= this.from) {
-      console.error(
-        new RangeError(`This value must be less than ${this.from}.`)
-      );
-      return;
+      throw new TypeError('This value must be a number.');
+    } else if (value < this.from) {
+      throw new RangeError(`This value must be less than ${this.from}.`);
     }
     this._to = value;
   }
