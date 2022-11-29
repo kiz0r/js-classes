@@ -43,9 +43,10 @@ try {
 } catch (error) {
   if (error instanceof TypeError) {
     console.log('error : ', error);
-  }
-  if (error instanceof RangeError) {
+  } else if (error instanceof RangeError) {
     console.log('error : ', error);
+  } else {
+    console.log('error', error);
   }
 }
 
