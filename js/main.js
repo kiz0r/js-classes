@@ -68,7 +68,7 @@ class RangeValidator {
   set from(value) {
     if (typeof value !== 'number') {
       throw new TypeError('This value must be a number.');
-    } else if (this.to <= value) {
+    } else if (this.to < value) {
       throw new RangeError(`This value must be less than ${this.to}.`);
     }
     this._from = value;
@@ -79,7 +79,7 @@ class RangeValidator {
   set to(value) {
     if (typeof value !== 'number') {
       throw new TypeError('This value must be a number.');
-    } else if (this.from >= value) {
+    } else if (this.from > value) {
       throw new RangeError(`This value must be less than ${this.from}.`);
     }
     this._to = value;
